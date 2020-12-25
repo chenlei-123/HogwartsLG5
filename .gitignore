@@ -1,3 +1,5 @@
 /venv/
 /.idea/
 tmp
+.pytest_cache/
+.gitignore
