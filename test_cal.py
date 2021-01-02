@@ -9,25 +9,35 @@ def get_datas():
         print(datas)
         add_datas = datas["adddata"]
         div_datas = datas["divdata"]
-        return [add_datas, div_datas]
+        sub_datas = datas["subdata"]
+        mul_datas = datas["muldata"]
+        return [add_datas, div_datas, sub_datas, mul_datas]
 
 
 class TestCalc:
     def setup_class(self):
         self.calc = Calculator()
 
-    def setup_method(self):
-        print("\n开始计算")
-
-    def teardown_method(self):
-        print("\n结束计算")
-
     @pytest.mark.parametrize("a, b, expect", get_datas()[0])
-    def test_add(self, a, b, expect):
+    @pytest.mark.run(order=1)
+    def test_add(self, a, b, expect, print_message):
         result = self.calc.add(a, b)
         assert result == expect
 
     @pytest.mark.parametrize("a, b, expect", get_datas()[1])
-    def test_div(self, a, b, expect):
+    @pytest.mark.run(order=4)
+    def test_div(self, a, b, expect, print_message):
         result = self.calc.div(a, b)
+        assert result == expect
+
+    @pytest.mark.parametrize("a , b, expect", get_datas()[2])
+    @pytest.mark.run(order=2)
+    def test_sub(self, a, b, expect, print_message):
+        result = self.calc.sub(a, b)
+        assert result == expect
+
+    @pytest.mark.parametrize("a ,b , expect", get_datas()[3])
+    @pytest.mark.run(order=3)
+    def test_mul(self, a, b, expect, print_message):
+        result = self.calc.mul(a, b)
         assert result == expect
